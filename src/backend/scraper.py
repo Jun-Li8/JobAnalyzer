@@ -4,7 +4,7 @@ from jobspy import scrape_jobs
 jobs = scrape_jobs(
     site_name=["indeed"],
     search_term="software engineer",
-    location="Dallas, TX",
+    location="Chicago, IL",
     results_wanted=20,
     hours_old=72, # (only Linkedin/Indeed is hour specific, others round up to days old)
     country_indeed='USA',  # only needed for indeed / glassdoor
