@@ -1,8 +1,8 @@
 const NavBar = () => {
     const pages = [
-        {name: "Home", "link": "home"},
-        {"name": "About", "link": "about"},
-        {"name": "Projects", "link": "projects"}
+        {"name": "Home", "link": "home"},
+        {"name": "Analysis", "link": "analysis"},
+        {"name": "About", "link": "about"}
     ]
     return (
         <header className="bg-gray-800 text-white">

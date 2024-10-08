@@ -5,3 +5,5 @@ const Analysis = () => {
         </div>
     );
 }
+
+export default Analysis;

@@ -14,5 +14,5 @@ response = model.generate_content("Write a story about a magic backpack.")
 print(response.text)
 
 # df = pd.read_csv("jobs.csv")
-#data = df[['id','title','job_type','job_level','description']]
+#data = df[['id','title','job_type','job_level','description',job_function]]
 #print(data.head().to_json()) /
