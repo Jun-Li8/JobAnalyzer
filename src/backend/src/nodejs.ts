@@ -1,17 +1,17 @@
 import express, { Request, Response } from 'express';
 import { spawn } from 'child_process';
-import path from 'path'
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const port = 3000;
- 
 
-app.use(express.json());
 
 app.post('/api/get-data', (req: Request, res: Response) => {
   const {job, numResult, site} = req.body;
-  console.log("Running")
-  const pythonProcess = spawn('python3', ['test.py', job, numResult, site]);  
+  const pythonProcess = spawn('python3', ['scraper.py', job, numResult, site]);  
 
   let dataToSend = '';
   
@@ -25,14 +25,10 @@ app.post('/api/get-data', (req: Request, res: Response) => {
   
   pythonProcess.on('close', (code: number) => {
     console.log(`Python script exited with code ${code}`);
-    res.json(JSON.parse(dataToSend));
-    console.log(JSON.parse(dataToSend))
+    res.json({message: dataToSend});
   });
 });
 
-app.get('/test', (req: Request, res: Response) => {
-  res.json({message:'PLEASE WORK'});
-})
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

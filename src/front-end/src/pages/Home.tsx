@@ -1,23 +1,13 @@
-import React, { ChangeEvent, useState ,FormEvent, useEffect} from "react";
+import React, { ChangeEvent, useState ,FormEvent} from "react";
 
 const Home = () => {
     const catList: string[] = ["Indeed","LinkedIn","ZipRecuiter"];
 
     const [job, setJob] = useState<string>('');
-    const [numResult, setNumResult] = useState<number>(50);
+    const [numResult, setNumResult] = useState<number | undefined>(50);
     const [site,setSite] = useState<string>(catList[0]);
     const [loading,setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
-
-    /*useEffect(() => {
-        console.log("Fetching");
-        const fetchData = async () => {
-            const response = await fetch('/test');
-            const data = await response.json();
-            setResult(data.message);
-        }
-        fetchData();
-    },[]) */
 
     const runAnalysis = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,7 +21,7 @@ const Home = () => {
                 body: JSON.stringify({job,numResult,site}),
             });
             const data = await response.json();
-            setResult(JSON.stringify(data.message));
+            setResult(data.message);
         } catch (error){
             console.error('Error Running the Python Script: ', error);
             setResult('Error running script');
@@ -56,8 +46,9 @@ const Home = () => {
                         fieldID="num_results" 
                         fieldplaceHolder="Enter the number of posting to analyze" 
                         fieldType={FieldTypes.Number} 
-                        value={numResult} 
-                        onChange={(e:ChangeEvent<HTMLInputElement>) => setNumResult(e.target.value === '' ? 0 : Number(e.target.value))}/>
+                        value={numResult}
+                        onChange={(e:ChangeEvent<HTMLInputElement>) => setNumResult(e.target.value === '' ? undefined : Number(e.target.value))}
+                        />
                     <CategoryField 
                         fieldName="Site" 
                         fieldID="site" 
@@ -84,7 +75,7 @@ interface FieldProps {
     fieldName: string;
     fieldID: string;
     fieldplaceHolder?: string;
-    value: string | number;
+    value: string | number | undefined;
 }
 
 interface InputFieldProps extends FieldProps{
