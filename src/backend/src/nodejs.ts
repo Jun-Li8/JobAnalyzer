@@ -8,10 +8,12 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+app.use(express.json())
+
 
 app.post('/api/get-data', (req: Request, res: Response) => {
-  const {job, numResult, site} = req.body;
-  const pythonProcess = spawn('python3', ['scraper.py', job, numResult, site]);  
+  const {job, numResult, site, collectionName} = req.body;
+  const pythonProcess = spawn('python3', ['scraper.py', job, numResult, site, collectionName]);  
 
   let dataToSend = '';
   
@@ -25,7 +27,7 @@ app.post('/api/get-data', (req: Request, res: Response) => {
   
   pythonProcess.on('close', (code: number) => {
     console.log(`Python script exited with code ${code}`);
-    res.json({message: dataToSend});
+    res.send(dataToSend);
   });
 });
 

@@ -15,7 +15,7 @@ client = MongoClient(MONGODB_URI)
 db = client['JobsDB']
 collection = db['Jobs']
 
-def scape(job,numResults,site):
+def scape(job,numResults,site,collectionName):
     df = scrape_jobs(
         site_name=[site],
         search_term=job,
@@ -28,8 +28,9 @@ def scape(job,numResults,site):
     )
     
     data = df[["title","company","location","description"]]
-    data_dict = data.to_dict("records")
-    #collection.insert_many(data_dict)
+    data_dict = {'collection_name': collectionName, 'data': data.to_dict("records")}
+
+    collection.insert_one(data_dict)
 
     print(f"Found {len(data)} jobs")
     data.to_csv("jobs.csv", quoting=csv.QUOTE_NONNUMERIC, escapechar="\\", index=False) # to_excel
@@ -37,7 +38,7 @@ def scape(job,numResults,site):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print(json.dumps({"error": 'Expected 3 parameters'}))
+    if len(sys.argv) != 5:
+        print(json.dumps({"error": 'Expected 4 parameters'}))
     else:
-        scape(sys.argv[1],sys.argv[2],sys.argv[3])
+        scape(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])

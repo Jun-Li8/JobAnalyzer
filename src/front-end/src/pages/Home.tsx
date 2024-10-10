@@ -6,6 +6,8 @@ const Home = () => {
     const [job, setJob] = useState<string>('');
     const [numResult, setNumResult] = useState<number | undefined>(50);
     const [site,setSite] = useState<string>(catList[0]);
+    const [collectionName, setCollectionName] = useState<string>('');
+
     const [loading,setLoading] = useState<boolean>(false);
     const [result, setResult] = useState<string>('');
 
@@ -13,15 +15,16 @@ const Home = () => {
         e.preventDefault();
         setLoading(true);
         try{
+            console.log(job)
             const response = await fetch('/api/get-data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({job,numResult,site}),
+                body: JSON.stringify({job,numResult,site,collectionName}),
             });
-            const data = await response.json();
-            setResult(data.message);
+            const data = await response.text();
+            setResult(data);
         } catch (error){
             console.error('Error Running the Python Script: ', error);
             setResult('Error running script');
@@ -55,6 +58,13 @@ const Home = () => {
                         categoryList={catList} 
                         value={site} 
                         onChange={(e:ChangeEvent<HTMLSelectElement>) => setSite(e.target.value)}/> 
+                    <InputField 
+                        fieldName="Collection Name" 
+                        fieldID="collect_name" 
+                        fieldplaceHolder="Enter a name for your data collection" 
+                        fieldType={FieldTypes.Text} 
+                        value={collectionName}
+                        onChange={(e:ChangeEvent<HTMLInputElement>) => setCollectionName(e.target.value)}/>
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
