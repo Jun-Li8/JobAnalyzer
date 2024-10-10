@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { json, Request, Response } from 'express';
 import { spawn } from 'child_process';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
@@ -41,6 +41,16 @@ app.post('/api/get-data', (req: Request, res: Response) => {
 app.get('/api/get-data-from-db', async (req: Request, res: Response) => {
   try {
     const jobs = await Jobs.find({},'collection_name').exec();
+    res.json(jobs);
+  } catch (error){
+    res.status(500).json({message : (error as Error).message});
+  }
+});
+
+
+app.get('/api/get-data-from-db/:collectionID', async (req: Request, res: Response) => {
+  try {
+    const jobs = await Jobs.findById(req.params.collectionID);
     res.json(jobs);
   } catch (error){
     res.status(500).json({message : (error as Error).message});

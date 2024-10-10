@@ -15,7 +15,7 @@ const JobSchema: Schema = new Schema({
 });
 
 interface IJobs extends Document{
-    collection_name: string
+    collection_name: string;
     data: IJob[];
 }
 const JobsSchema: Schema = new Schema({
@@ -25,5 +25,5 @@ const JobsSchema: Schema = new Schema({
 
 const Jobs = mongoose.model<IJobs>('Jobs',JobsSchema,'Jobs');
 
-export {IJobs,Jobs};
+export {IJobs,Jobs,IJob};
 

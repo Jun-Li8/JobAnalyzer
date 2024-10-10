@@ -8,6 +8,8 @@ export default defineConfig({
     proxy: {
       '/test': 'http://localhost:3000',
       '/api/get-data': 'http://localhost:3000',
+      '/api/get-data-from-db': 'http://localhost:3000',
+      '^/api' : 'http://localhost:3000',
     },
     port:3001,
   },
