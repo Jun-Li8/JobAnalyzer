@@ -27,7 +27,8 @@ def scape(job,numResults,site,collectionName):
         # proxies=["208.195.175.46:65095", "208.195.175.45:65095", "localhost"],
     )
     
-    data = df[["title","company","location","description"]]
+    df = df.rename(columns= {"location" : "job_location"})
+    data = df[["title","company","job_location","description"]]
     data_dict = {'collection_name': collectionName, 'data': data.to_dict("records")}
 
     collection.insert_one(data_dict)
