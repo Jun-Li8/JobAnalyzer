@@ -15,6 +15,7 @@ client = MongoClient(MONGODB_URI)
 db = client['JobsDB']
 collection = db['Jobs']
 
+
 def scape(job,numResults,site,collectionName):
     df = scrape_jobs(
         site_name=[site],
@@ -26,9 +27,8 @@ def scape(job,numResults,site,collectionName):
         # linkedin_fetch_description=True # get more info such as full description, direct job url for linkedin (slower)
         # proxies=["208.195.175.46:65095", "208.195.175.45:65095", "localhost"],
     )
-    
-    df = df.rename(columns= {"location" : "job_location"})
-    data = df[["title","company","job_location","description"]]
+    data = df[["title","company","location","min_amount","max_amount","description"]]
+    data = data.rename(columns = {"location" : "job_location"})
     data_dict = {'collection_name': collectionName, 'data': data.to_dict("records")}
 
     collection.insert_one(data_dict)

@@ -10,7 +10,7 @@ const NavBar = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <a href="/" className="text-xl font-bold">
-                Logo
+                JobAnalyzer
               </a>
             </div>
             <div className="flex space-x-4">

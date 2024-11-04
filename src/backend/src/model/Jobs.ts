@@ -4,13 +4,15 @@ interface IJob extends Document{
     title : string;
     company: string;
     job_location: string;
+    min_amount: number;
+    max_amount: number;
     description: string;
 }
 
 const JobSchema: Schema = new Schema({
     title: {type: String, required: true},
     company: {type: String, required: true},
-    job_location: {type: String, required: true},
+    location: {type: String, required: true},
     description: {type: String, required: true}
 });
 

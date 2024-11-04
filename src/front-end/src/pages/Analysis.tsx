@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { Link, useParams } from "react-router-dom";
 import {IJob} from '../../../backend/src/model/Jobs';
-import { ObjectId } from "mongoose";
-import mongoose from 'mongoose';
+import GPTComponent from "./GPTComponent"
+import GPTQueryBar from '../components/GPTQueryBar';
 
 
 
@@ -51,6 +51,7 @@ const Analysis = () => {
 const AnalysisDetails = () => {
     const collectionID = useParams<{id: string}>();
     const [jobsData,setJobsData] = useState<Collection | null>(null);
+    const [haveClicked, setHaveClicked] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchSingleCollection = async () => {
@@ -71,7 +72,9 @@ const AnalysisDetails = () => {
     return (
         <div className="container mx-auto px-4">
             <h1 className="text-3xl font-bold mb-6">{jobsData.collection_name}</h1>
-            <p className="mb-4"><strong>Length of Data:</strong> {jobsData.data?.length}</p>
+            <p className="mb-4"><strong>Number of jobs:</strong> {jobsData.data?.length}</p>
+            <GPTQueryBar jobData={jobsData?.data || []} setValue={setHaveClicked}/>
+            {haveClicked ? <GPTComponent /> : null}
         </div>
     );
 } 
